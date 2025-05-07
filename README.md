@@ -1,3 +1,5 @@
+![HomePage Screenshot](src/assets/images/hero.png)
+
 # Sylvia Chebet's Portfolio Website
 A modern, responsive portfolio website built with Angular and Tailwind CSS to showcase my projects, skills, and professional experience.
 
