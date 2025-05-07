@@ -28,7 +28,7 @@
       </div>
       <div
         class="md:w-1/2 flex flex-col p-6 justify-center border border-gray-500 hover:border-amber-200 items-center rounded"
-        data-aos="fade-left" data-aos-delay="200" data-aos-duration="800" >
+        data-aos="fade-left" data-aos-delay="200" data-aos-duration="800">
         <img src="assets/images/Sylvia-profile.png" alt="Sylvia Chebet"
           class="w-50 h-50 object-cover rounded-full mb-10 hover:animate-pulse [animation-duration:100] shadow-lg opacity-70" />
         <h1 class="text-2xl md:text-3xl font-bold mb-2">SYLVIA CHEBET</h1>
@@ -460,40 +460,81 @@
   </h1>
   <div class="container p-10 m-10 flex flex-col shadow-xl rounded-md">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Contact Form -->
       <div class="p-6 border border-gray-500 rounded hover:border-amber-200" data-aos="fade-right" data-aos-delay="200"
         data-aos-duration="800">
         <h3 class="text-2xl font-bold text-yellow-300 mb-4">Send Me A Message</h3>
-        <form class="space-y-4">
+        <!-- Success message -->
+        <div *ngIf="formSuccess" class="bg-green-800 text-white p-4 rounded mb-4 flex items-center justify-between">
+          <div>
+            <i class="fas fa-check-circle mr-2"></i>
+            Your message has been sent successfully!
+          </div>
+          <button (click)="formSuccess = false" class="text-white">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Error message -->
+        <div *ngIf="formError" class="bg-red-800 text-white p-4 rounded mb-4 flex items-center justify-between">
+          <div>
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            There was an error sending your message. Please try again.
+          </div>
+          <button (click)="formError = false" class="text-white">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-4">
           <div class="flex flex-col md:flex-row gap-4">
             <div class="w-full md:w-1/2">
               <label for="name" class="block text-gray-300 mb-2">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your Name"
-                class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white">
+              <input type="text" id="name" formControlName="name" placeholder="Your Name"
+                class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white"
+                [ngClass]="{'border-red-500': formSubmitted && contactForm.get('name')?.invalid}">
+              <div *ngIf="formSubmitted && contactForm.get('name')?.invalid" class="text-red-500 text-sm mt-1">
+                Name is required
+              </div>
             </div>
             <div class="w-full md:w-1/2">
               <label for="email" class="block text-gray-300 mb-2">Email</label>
-              <input type="email" id="email" name="email" placeholder="Your Email"
-                class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white">
+              <input type="email" id="email" formControlName="email" placeholder="Your Email"
+                class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white"
+                [ngClass]="{'border-red-500': formSubmitted && contactForm.get('email')?.invalid}">
+              <div *ngIf="formSubmitted && contactForm.get('email')?.invalid" class="text-red-500 text-sm mt-1">
+                Valid email is required
+              </div>
             </div>
           </div>
           <div>
             <label for="subject" class="block text-gray-300 mb-2">Subject</label>
-            <input type="text" id="subject" name="subject" placeholder="Subject"
-              class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white">
+            <input type="text" id="subject" formControlName="subject" placeholder="Subject"
+              class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white"
+              [ngClass]="{'border-red-500': formSubmitted && contactForm.get('subject')?.invalid}">
+            <div *ngIf="formSubmitted && contactForm.get('subject')?.invalid" class="text-red-500 text-sm mt-1">
+              Subject is required
+            </div>
           </div>
           <div>
             <label for="message" class="block text-gray-300 mb-2">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Your Message"
-              class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white"></textarea>
+            <textarea id="message" formControlName="message" rows="5" placeholder="Your Message"
+              class="w-full p-3 bg-gray-500 border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-white"
+              [ngClass]="{'border-red-500': formSubmitted && contactForm.get('message')?.invalid}"></textarea>
+            <div *ngIf="formSubmitted && contactForm.get('message')?.invalid" class="text-red-500 text-sm mt-1">
+              Message is required (minimum 10 characters)
+            </div>
           </div>
           <button type="submit"
-            class="px-6 py-3 bg-transparent border border-yellow-500 text-yellow-500 rounded-full font-semibold hover:bg-yellow-500 hover:text-gray-900 transition w-full">Send
-            Message</button>
+            class="px-6 py-3 bg-transparent border border-yellow-500 text-yellow-500 rounded-full font-semibold hover:bg-yellow-500 hover:text-gray-900 transition w-full flex items-center justify-center"
+            [disabled]="isSubmitting">
+            <span *ngIf="isSubmitting" class="mr-2">
+              <i class="fas fa-spinner fa-spin"></i>
+            </span>
+            {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+          </button>
         </form>
       </div>
 
-      <!-- Contact Information -->
       <div class="p-6 border border-gray-500 rounded hover:border-amber-200" data-aos="fade-left" data-aos-delay="200"
         data-aos-duration="800">
         <h3 class="text-2xl font-bold text-yellow-300 mb-4">Contact Information</h3>
@@ -551,39 +592,38 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- Footer Section -->
-<footer class="bg-gray-700 text-white py-8 mt-10">
-  <div class="container mx-auto px-6">
-    <div class="flex flex-col items-center md:flex-row md:justify-between">
-      <div class="mb-6 md:mb-0">
-        <h2 class="text-2xl font-bold mb-2">Sylvia <span class="text-yellow-400">Chebet</span></h2>
-        <p class="text-gray-400">Full Stack Web Developer & Geospatial Engineer</p>
+  <!-- Footer Section -->
+  <footer class="bg-gray-700 text-white py-8 mt-10">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col items-center md:flex-row md:justify-between">
+        <div class="mb-6 md:mb-0">
+          <h2 class="text-2xl font-bold mb-2">Sylvia <span class="text-yellow-400">Chebet</span></h2>
+          <p class="text-gray-400">Full Stack Web Developer & Geospatial Engineer</p>
+        </div>
+
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <a href="#about" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
+            <i class="fas fa-user"></i> About
+          </a>
+          <a href="#projects" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
+            <i class="fas fa-project-diagram"></i> Projects
+          </a>
+          <a href="#contact" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
+            <i class="fas fa-envelope"></i> Contact
+          </a>
+        </div>
       </div>
 
-      <div class="flex space-x-6">
-        <a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
-          <i class="fas fa-home"></i> Home
-        </a>
-        <a href="#about" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
-          <i class="fas fa-user"></i> About
-        </a>
-        <a href="#projects" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
-          <i class="fas fa-project-diagram"></i> Projects
-        </a>
-        <a href="#contact" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300">
-          <i class="fas fa-envelope"></i> Contact
-        </a>
+      <hr class="border-gray-500 my-6">
+
+      <div class="text-center">
+        <p class="text-gray-300">© 2025 Sylvia Chebet. All Rights Reserved.</p>
+        <p class="text-gray-400 text-sm mt-2">Designed with <i class="fas fa-heart text-yellow-400"></i> and modern web
+          technologies</p>
       </div>
     </div>
-
-    <hr class="border-gray-500 my-6">
-
-    <div class="text-center">
-      <p class="text-gray-300">© 2025 Sylvia Chebet. All Rights Reserved.</p>
-      <p class="text-gray-400 text-sm mt-2">Designed with <i class="fas fa-heart text-yellow-400"></i> and modern web
-        technologies</p>
-    </div>
-  </div>
-</footer>
+  </footer>
