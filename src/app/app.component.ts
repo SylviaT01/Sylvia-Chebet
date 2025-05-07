@@ -9,7 +9,7 @@ import * as AOS from 'aos';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'portfolio';
+  title = 'Sylvia Chebet';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
