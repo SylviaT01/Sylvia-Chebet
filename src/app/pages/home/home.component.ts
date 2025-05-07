@@ -39,7 +39,7 @@
 //     }
 //   }
 // }
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -51,9 +51,10 @@ const Sylvia = 'assets/images/Sylvia-profile.png';
   templateUrl: './home.component.html',
   styles: []
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   public imageSrc = Sylvia;
   private isBrowser: boolean;
+  private AOS: any;
 
   constructor(
     private router: Router,
@@ -65,6 +66,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if (this.isBrowser) {
       import('aos').then(AOS => {
+        this.AOS = AOS;
         AOS.init({
           duration: 800,
           easing: 'ease-in-out',
@@ -77,6 +79,14 @@ export class HomeComponent implements OnInit {
             setTimeout(() => AOS.refreshHard(), 100);
           });
       });
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.isBrowser && this.AOS) {
+      setTimeout(() => {
+        this.AOS.refreshHard();
+      }, 200);
     }
   }
 }
