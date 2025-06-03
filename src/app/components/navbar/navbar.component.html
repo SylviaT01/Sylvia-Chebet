@@ -1,7 +1,9 @@
-
-<div class=" text-white p-6">
+<div class="text-white p-6">
   <div class="flex justify-between items-center">
+    <!-- Logo -->
     <h1 class="text-2xl font-bold">S<span class="text-yellow-500">C</span>T</h1>
+    
+    <!-- Desktop Navigation -->
     <nav class="hidden md:flex space-x-6">
       <a href="#about" class="hover:text-yellow-500 transition-colors duration-300">
         <i class="fas fa-user mr-1"></i> About Me
@@ -20,6 +22,64 @@
       </a>
     </nav>
     
-
+    <!-- Mobile Hamburger Button -->
+    <button 
+      class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 rounded"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      aria-label="Toggle navigation menu">
+      <span 
+        class="w-6 h-0.5 bg-white transition-all duration-300 ease-in-out"
+        [class.rotate-45]="isMobileMenuOpen"
+        [class.translate-y-2]="isMobileMenuOpen"></span>
+      <span 
+        class="w-6 h-0.5 bg-white transition-all duration-300 ease-in-out"
+        [class.opacity-0]="isMobileMenuOpen"></span>
+      <span 
+        class="w-6 h-0.5 bg-white transition-all duration-300 ease-in-out"
+        [class.-rotate-45]="isMobileMenuOpen"
+        [class.-translate-y-2]="isMobileMenuOpen"></span>
+    </button>
   </div>
+  
+  <!-- Mobile Navigation Menu -->
+  <nav 
+    class="md:hidden overflow-hidden transition-all duration-300 ease-in-out"
+    [class.max-h-0]="!isMobileMenuOpen"
+    [class.max-h-96]="isMobileMenuOpen"
+    [class.opacity-0]="!isMobileMenuOpen"
+    [class.opacity-100]="isMobileMenuOpen">
+    <div class="pt-4 pb-2 space-y-3 border-t border-gray-700 mt-4">
+      <a 
+        href="#about" 
+        class="block py-2 px-3 hover:text-yellow-500 hover:bg-gray-800 rounded transition-all duration-300"
+        (click)="closeMobileMenu()">
+        <i class="fas fa-user mr-2"></i> About Me
+      </a>
+      <a 
+        href="#technologies" 
+        class="block py-2 px-3 hover:text-yellow-500 hover:bg-gray-800 rounded transition-all duration-300"
+        (click)="closeMobileMenu()">
+        <i class="fas fa-tools mr-2"></i> Skills & Technologies
+      </a>
+      <a 
+        href="#experience" 
+        class="block py-2 px-3 hover:text-yellow-500 hover:bg-gray-800 rounded transition-all duration-300"
+        (click)="closeMobileMenu()">
+        <i class="fas fa-briefcase mr-2"></i> Experience
+      </a>
+      <a 
+        href="#projects" 
+        class="block py-2 px-3 hover:text-yellow-500 hover:bg-gray-800 rounded transition-all duration-300"
+        (click)="closeMobileMenu()">
+        <i class="fas fa-project-diagram mr-2"></i> Projects
+      </a>
+      <a 
+        href="#certifications" 
+        class="block py-2 px-3 hover:text-yellow-500 hover:bg-gray-800 rounded transition-all duration-300"
+        (click)="closeMobileMenu()">
+        <i class="fas fa-certificate mr-2"></i> Certifications
+      </a>
+    </div>
+  </nav>
 </div>
